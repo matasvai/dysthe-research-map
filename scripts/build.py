@@ -1,12 +1,19 @@
 """Build the dependency-free GitHub Pages site from the editable diagram."""
 
 from pathlib import Path
+from html import escape
+import json
 
 from render import render
 
 
 ROOT = Path(__file__).resolve().parents[1]
 TITLE = "Dysthe — Interactive Research Map"
+family = json.loads((ROOT / "family.json").read_text())
+repository_links = ' · '.join(
+    f'<a href="https://github.com/matasvai/{escape(repo["name"])}">'
+    f'{escape(repo["name"])}</a>' for repo in family['repositories']
+)
 document = render(ROOT / "source/research-map.html", title=TITLE)
 document = document.replace(
     "<title>" + TITLE + "</title>",
@@ -33,7 +40,10 @@ document = document.replace(
     '</iframe>\n</main>\n<footer>Optical Dysthe research · Proposed methods '
     'and evidence requirements. '
     '<a href="https://github.com/matasvai/dysthe-research-map">'
-    'View the website source on GitHub</a></footer>\n<script>',
+    'View the website source on GitHub</a>'
+    '<p><strong>Research repositories</strong><br>' + repository_links + '</p>'
+    '<p><a href="https://github.com/matasvai/dysthe-research-map/blob/main/FAMILY.md">'
+    'Repository roles, branches, and workspace setup</a></p></footer>\n<script>',
     1,
 )
 (ROOT / "docs").mkdir(exist_ok=True)

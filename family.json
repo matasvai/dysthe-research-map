@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "scope": "optical-dysthe-127-v1",
+  "repositories": [
+    {
+      "name": "dysthe-core",
+      "url": "https://github.com/matasvai/dysthe-core.git",
+      "role": "Shared equation, reference, initial fields and diagnostics",
+      "revision": "45b2898231aa29e084a6b175d341807be52bd9a0",
+      "default_branch": "main",
+      "workstreams": [
+        "codex/reference-migration",
+        "codex/initial-condition-family"
+      ],
+      "status": "scaffold"
+    },
+    {
+      "name": "dysthe-learning",
+      "url": "https://github.com/matasvai/dysthe-learning.git",
+      "role": "Learning-method workstreams and shared interfaces",
+      "revision": "975bdb9c561883f6ffb9bbf82d4ce5d47acedeba",
+      "default_branch": "main",
+      "workstreams": [
+        "codex/hybrid-solver",
+        "codex/reduced-model",
+        "codex/deeponet",
+        "codex/fno-baseline",
+        "codex/active-learning"
+      ],
+      "status": "scaffold"
+    },
+    {
+      "name": "dysthe-experiments",
+      "url": "https://github.com/matasvai/dysthe-experiments.git",
+      "role": "Campaigns, benchmarks, run manifests and cluster migration",
+      "revision": "21c7e4d44f8348c3e6237ca4d2b1c06e0bc36a1b",
+      "default_branch": "main",
+      "workstreams": [
+        "codex/reference-campaign",
+        "codex/benchmark-suite"
+      ],
+      "status": "scaffold"
+    },
+    {
+      "name": "dysthe-paper",
+      "url": "https://github.com/matasvai/dysthe-paper.git",
+      "role": "LaTeX manuscript, PDF figures and evidence ledger",
+      "revision": "ed035438fedb9a90ba27b7fa4804d81801513a01",
+      "default_branch": "main",
+      "workstreams": [
+        "codex/manuscript-outline"
+      ],
+      "status": "scaffold"
+    }
+  ]
+}

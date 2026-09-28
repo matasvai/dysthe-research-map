@@ -5,6 +5,10 @@ parts could support a scientific paper.
 
 **Website:** https://matasvai.github.io/dysthe-research-map/
 
+**Repository family:** [roles, branches, and migration order](FAMILY.md).
+From this clone, `python3 scripts/workspace.py setup` prepares the four sibling
+research repositories at the revisions recorded in `family.json`.
+
 Six views connect the research question, reference simulations, candidate
 learning methods, validation, and publication:
 
