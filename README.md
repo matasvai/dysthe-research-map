@@ -41,6 +41,6 @@ GitHub Pages publishes `docs/` on the `main` branch. `.nojekyll` serves the
 prebuilt static page. The page has no backend, analytics, remote fonts, or
 JavaScript dependencies. It uses local browser storage to remember the selected
 diagram; the diagram still works when storage is unavailable. Source links open
-the cited publishers and papers in another tab.
+the cited publishers and papers in the same tab; use Back to return to the map.
 
 The public repository contains only the website and its build files.

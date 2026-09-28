@@ -276,7 +276,7 @@
     caption.textContent=views[key].caption;
     sources.replaceChildren();
     views[key].links.forEach(([label,url])=>{
-      const a=document.createElement('a'); a.textContent=label; a.href=url; a.target='_blank'; a.rel='noopener noreferrer'; sources.append(a);
+      const a=document.createElement('a'); a.textContent=label; a.href=url; a.target='_top'; a.rel='noopener noreferrer'; sources.append(a);
     });
     draw(); if(persist) save();
   }

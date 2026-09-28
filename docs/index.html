@@ -13,7 +13,7 @@
 <style>body{max-width:1100px;margin-inline:auto;font-family:Arial,sans-serif}footer{margin-top:24px;padding-block:16px;border-top:1px solid currentColor;font-size:14px;line-height:1.5}footer a{color:inherit;text-underline-offset:3px}@media(min-width:768px){body{padding:32px}}</style>
 <main aria-label="Interactive Dysthe research map">
 <noscript>This interactive research map needs JavaScript enabled.</noscript>
-<iframe id="codex-visualization" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer" title="Dysthe — Interactive Research Map" data-srcdoc="&lt;!doctype html&gt;
+<iframe id="codex-visualization" sandbox="allow-scripts allow-top-navigation-by-user-activation" referrerpolicy="no-referrer" title="Dysthe — Interactive Research Map" data-srcdoc="&lt;!doctype html&gt;
 &lt;html lang=&quot;en&quot; data-visualize-standalone&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;utf-8&quot;&gt;
@@ -1611,7 +1611,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     caption.textContent=views[key].caption;
     sources.replaceChildren();
     views[key].links.forEach(([label,url])=&gt;{
-      const a=document.createElement(&#x27;a&#x27;); a.textContent=label; a.href=url; a.target=&#x27;_blank&#x27;; a.rel=&#x27;noopener noreferrer&#x27;; sources.append(a);
+      const a=document.createElement(&#x27;a&#x27;); a.textContent=label; a.href=url; a.target=&#x27;_top&#x27;; a.rel=&#x27;noopener noreferrer&#x27;; sources.append(a);
     });
     draw(); if(persist) save();
   }

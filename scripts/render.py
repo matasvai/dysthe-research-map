@@ -114,7 +114,7 @@ html>body{{padding:0}}</style>
 <style>:root{{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}}html,body{{margin:0}}body{{box-sizing:border-box;padding:1rem;background:inherit}}iframe{{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}}</style>
 </head>
 <body>
-<iframe id="codex-visualization" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer" title="{document_title}" data-srcdoc="{escape(frame_html)}"></iframe>
+<iframe id="codex-visualization" sandbox="allow-scripts allow-top-navigation-by-user-activation" referrerpolicy="no-referrer" title="{document_title}" data-srcdoc="{escape(frame_html)}"></iframe>
 <script>{shell}</script>
 </body>
 </html>
