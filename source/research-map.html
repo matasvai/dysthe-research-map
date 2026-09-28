@@ -1,0 +1,296 @@
+<div id="dysthe-research-wireframe">
+  <div class="dw-heading">
+    <h2>Dysthe: from model to paper</h2>
+    <span class="text-small dw-meta">PROPOSED RESEARCH STRUCTURE</span>
+  </div>
+  <div class="viz-controls" role="group" aria-label="Choose a diagram">
+    <button type="button" class="btn btn-primary" data-view="overview" aria-pressed="true">Research map</button>
+    <button type="button" class="btn" data-view="hybrid" aria-pressed="false">Hybrid solver</button>
+    <button type="button" class="btn" data-view="reduced" aria-pressed="false">Reduced model</button>
+    <button type="button" class="btn" data-view="deep" aria-pressed="false">DeepONet</button>
+    <button type="button" class="btn" data-view="active" aria-pressed="false">Active learning</button>
+    <button type="button" class="btn" data-view="paper" aria-pressed="false">Publication</button>
+  </div>
+  <div class="dw-caption text-small" aria-live="polite"></div>
+  <div class="dw-legend text-small" aria-label="Connector legend">
+    <span><span class="dw-line"></span>Data or evidence</span>
+    <span><span class="dw-line dw-loop"></span>Feedback / repeat</span>
+  </div>
+  <div class="dw-canvas"></div>
+  <div class="dw-sources text-small"></div>
+</div>
+<style>
+#dysthe-research-wireframe { color: var(--foreground); font-family: Arial, sans-serif; }
+#dysthe-research-wireframe .dw-heading { display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+#dysthe-research-wireframe .dw-heading h2 { margin:0; }
+#dysthe-research-wireframe .dw-meta { font-family:ui-monospace, monospace; color:var(--muted-foreground); }
+#dysthe-research-wireframe .dw-caption { margin:12px 0 8px; color:var(--foreground); }
+#dysthe-research-wireframe .dw-legend { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:8px; color:var(--muted-foreground); }
+#dysthe-research-wireframe .dw-legend > span { display:flex; align-items:center; gap:6px; }
+#dysthe-research-wireframe .dw-line { display:inline-block; width:26px; border-top:1px solid var(--muted-foreground); }
+#dysthe-research-wireframe .dw-loop { border-top-style:dashed; }
+#dysthe-research-wireframe .dw-canvas { width:100%; }
+#dysthe-research-wireframe .dw-diagram { display:block; width:100%; overflow:visible; }
+#dysthe-research-wireframe .dw-diagram .node-box { fill:var(--background); stroke:var(--muted-foreground); stroke-width:1; }
+#dysthe-research-wireframe .dw-diagram .node-box.gate { fill:var(--muted); }
+#dysthe-research-wireframe .dw-diagram .node-box.paper { fill:var(--secondary); }
+#dysthe-research-wireframe .dw-diagram .node-title { fill:var(--foreground); font-weight:500; }
+#dysthe-research-wireframe .dw-diagram .node-detail { fill:var(--foreground); font-weight:400; }
+#dysthe-research-wireframe .dw-diagram .node-tag { fill:var(--muted-foreground); font-family:ui-monospace, monospace; }
+#dysthe-research-wireframe .dw-diagram .edge { fill:none; stroke:var(--muted-foreground); stroke-width:1; }
+#dysthe-research-wireframe .dw-diagram .edge.feedback { stroke-dasharray:4 4; }
+#dysthe-research-wireframe .dw-diagram .edge-label { fill:var(--muted-foreground); }
+#dysthe-research-wireframe .dw-sources { margin-top:12px; display:flex; flex-wrap:wrap; gap:6px 14px; }
+#dysthe-research-wireframe .dw-sources a { color:var(--foreground); text-decoration:underline; text-underline-offset:3px; }
+</style>
+<script>
+(() => {
+  const root = document.getElementById('dysthe-research-wireframe');
+  const canvas = root.querySelector('.dw-canvas');
+  const caption = root.querySelector('.dw-caption');
+  const sources = root.querySelector('.dw-sources');
+  const buttons = [...root.querySelectorAll('[data-view]')];
+  const NS = 'http://www.w3.org/2000/svg';
+  const node = (id, title, detail, tag, kind = '') => ({id, title, detail, tag, kind});
+  const views = {
+    overview: {
+      title: 'Shared foundation, alternative models, common evidence',
+      caption: 'Alternative predictors · shared references and tests · active sampling feeds development',
+      description: 'The optical Dysthe specification feeds a reference solver. Refinement must pass before training and validation trajectories are separated from a locked test set. Three full-field approaches and one observable surrogate share the foundation. Their appropriate tests support either a computational or wave-dynamics paper. Failed reference checks return to the solver.',
+      rows: [
+        [node('question','Specify the scientific question','Optical Dysthe · input family · domain · valid regime','01 / SCOPE')],
+        [node('reference','Generate numerical references','Initial fields → complex trajectories + diagnostics','02 / EXISTING SOLVER, NEW CAMPAIGN')],
+        [node('certify','Accept only resolved trajectories','Grid, time-step and domain checks for each regime','03 / REFERENCE GATE','gate')],
+        [node('development','Training + validation','Fit weights, bases and hyperparameters','04 / DEVELOPMENT'), node('test','Lock complete test trajectories','Unseen fields, regimes and longer horizons','04 / FINAL ASSESSMENT')],
+        [node('field','Predict the whole field','Hybrid solver · reduced model · DeepONet','05 / THREE ALTERNATIVES'),node('observable','Predict chosen measurements','Gaussian process + active sampling','05 / OBSERVABLE ALTERNATIVE')],
+        [node('evaluation','Compare against relevant baselines','Field models: solver + FNO; GP: scalar error + calibration','06 / FROZEN MODELS + LOCKED TESTS','gate')],
+        [node('method','Computational contribution','A reproducible improvement or explained limitation','07 / CANDIDATE CLAIM','paper'),node('physics','Wave-dynamics contribution','Resolved growth, parameter effects and mechanism','07 / CANDIDATE CLAIM','paper')],
+        [node('publication','Build one focused paper','Claim → supporting figures → limitations → reproducible release','08 / NOVELTY CHECK + PEER REVIEW','paper')]
+      ],
+      edges: [['question','reference'],['reference','certify'],['certify','development'],['certify','test'],['development','field'],['development','observable'],['test','evaluation','side'],['field','evaluation'],['observable','evaluation'],['evaluation','method'],['evaluation','physics'],['method','publication'],['physics','publication'],['certify','reference','feedback','refine'],['observable','reference','feedback','sample']],
+      links: [['PINO / comparison baseline','https://arxiv.org/abs/2111.03794'],['DeepONet','https://arxiv.org/abs/2103.10974']]
+    },
+    hybrid: {
+      title: 'Hybrid solver: retain physics, learn the correction',
+      caption: 'Full-field prediction · candidate to test first · performance unestablished',
+      description: 'An input field enters a cheap numerical step with known linear dispersion and an approximate nonlinear update. A neural correction produces the next field. During training, refined targets define a multi-step objective that updates correction weights. In prediction, the corrected field feeds the next step. Held-out tests determine whether the method improves accuracy at equal computational cost.',
+      rows: [
+        [node('input','Current complex field','Real + imaginary parts · coefficients · step size','INPUT / NEW INITIAL FIELDS')],
+        [node('cheap','Known numerical step','Exact linear modes; nonlinear derivative approximated','FIXED PHYSICS')],
+        [node('network','Small correction network','State + coarse prediction → nonlinear step correction','LEARNED COMPONENT')],
+        [node('prediction','Corrected next field','Advance repeatedly with frozen weights','PREDICT / ROLLOUT'),node('targets','Refined training trajectories','Same inputs and observation times','TRAIN ONLY / TARGETS')],
+        [node('loss','Fit over several steps','Complex-field loss + verified physical constraints','TRAIN ONLY / UPDATE WEIGHTS')],
+        [node('test','Test phase, growth and cost','Compare against coarse solver, tuned solver and FNO','EVIDENCE / LOCKED TRAJECTORIES','gate')],
+        [node('paper','Possible methods contribution','Cost–accuracy curves + rollout errors + correction ablations','PAPER / BENEFIT MUST BE DEMONSTRATED','paper')]
+      ],
+      edges: [['input','cheap'],['cheap','network'],['network','prediction'],['prediction','loss'],['targets','loss'],['loss','test'],['test','paper'],['loss','network','feedback','fit'],['prediction','input','feedback','roll out']],
+      links: [['Learned split-step precedent','https://arxiv.org/abs/2010.14258'],['Learning inside numerical solvers','https://pmc.ncbi.nlm.nih.gov/articles/PMC8166023/']]
+    },
+    reduced: {
+      title: 'Reduced model: learn interactions among a few modes',
+      caption: 'Full-field approximation · proceed only if unseen disturbances survive compression',
+      description: 'Training fields define a spatial basis. A held-out compression test decides whether reduction is appropriate. Projected training trajectories are used to fit a constrained reduced dynamical system. At prediction time a new initial field is projected, its coefficients are evolved with the frozen reduced model and the field is reconstructed. Compression and evolution errors are assessed separately.',
+      rows: [
+        [node('data','Resolved training fields','Keep complex phase and small disturbances','TRAIN / INPUT SNAPSHOTS')],
+        [node('basis','Construct a compact basis','POD / SVD: dominant spatial patterns','TRAIN / FIT BASIS')],
+        [node('compress','Check validation-field compression','Measure disturbance and field reconstruction errors','GATE / KEEP MORE MODES IF NEEDED','gate')],
+        [node('fit','Infer reduced dynamics','Projected trajectories → constrained coefficient evolution','TRAIN / LEARN INTERACTIONS'),node('initial','Project a new initial field','Initial field → reduced coefficients','PREDICT / FROZEN BASIS')],
+        [node('evolve','Evolve reduced coefficients','Known linear structure + learned nonlinear interactions','PREDICT / FROZEN MODEL')],
+        [node('reconstruct','Reconstruct the complex field','Spatial basis + evolved coefficients','OUTPUT')],
+        [node('test','Separate compression from dynamics','Growth, phase, mode transfer and cost vs full solver','EVIDENCE / UNSEEN TRAJECTORIES','gate')],
+        [node('paper','Possible reduced-model contribution','Accuracy vs retained modes + interpretable interactions','PAPER / STRUCTURE MUST MATCH DYSTHE','paper')]
+      ],
+      edges: [['data','basis'],['basis','compress'],['compress','fit'],['compress','initial'],['fit','evolve'],['initial','evolve'],['evolve','reconstruct'],['reconstruct','test'],['test','paper'],['compress','basis','feedback','refine']],
+      links: [['Hamiltonian operator inference / NLS precedent','https://arxiv.org/abs/2107.12996']]
+    },
+    deep: {
+      title: 'DeepONet: condition directly on the initial field',
+      caption: 'Full-field prediction at requested coordinates · two encoders, one learned solution map',
+      description: 'The branch network reads samples of the complex initial field and equation parameters. The trunk network reads position and time. Their features combine into a complex solution prediction. Training uses trajectory data and optional equation residuals and verified invariants. Entire initial-condition trajectories are held out to test generalization.',
+      rows: [
+        [node('field','Initial-field samples','Real + imaginary parts · equation parameters','INPUT / FUNCTION'),node('query','Requested location and time','Spatial coordinates + propagation time','INPUT / QUERY')],
+        [node('branch','Branch network','Encode the starting field','LEARNED FEATURES'),node('trunk','Trunk network','Encode position and time','LEARNED FEATURES')],
+        [node('combine','Combine the two feature sets','Initial-field features × query features','LEARNED SOLUTION REPRESENTATION')],
+        [node('prediction','Predicted complex field','Initial-condition enforcement where appropriate','OUTPUT')],
+        [node('loss','Train on complete trajectories','Data + equation residual + verified invariant penalties','TRAIN / FIT BOTH NETWORKS')],
+        [node('test','Evaluate unseen initial fields','Interpolation, new families, phase and longer horizons','EVIDENCE / NO TEST-TIME RETRAINING','gate')],
+        [node('paper','Possible generalization contribution','Error by input family + physics-loss ablations + runtime','PAPER / COMPARE WITH FNO AND SOLVER','paper')]
+      ],
+      edges: [['field','branch'],['query','trunk'],['branch','combine'],['trunk','combine'],['combine','prediction'],['prediction','loss'],['loss','test'],['test','paper'],['loss','branch','feedback','fit'],['loss','trunk','feedback','fit']],
+      links: [['Physics-informed DeepONet','https://arxiv.org/abs/2103.10974']]
+    },
+    active: {
+      title: 'Active learning: choose the next useful simulation',
+      caption: 'Predicts selected measurements · can supply new training cases to the other methods',
+      description: 'A bounded family of input parameters is sampled by a resolved numerical solver. Scalar measurements train a Gaussian process. Its uncertainty guides the next development sample, which is simulated and added to the training pool. A separate locked test set checks scalar accuracy and uncertainty calibration. The final model can support a wave-behavior map or an efficiency study.',
+      rows: [
+        [node('space','Define the input-parameter family','Amplitude · width · disturbance wavelength · phase','INPUT / BOUNDED PARAMETER SPACE')],
+        [node('solve','Run selected reference simulations','Refinement gate on every accepted case','SHARED SOLVER')],
+        [node('measure','Extract a physical measurement','Growth rate, peak amplification or event time','DATA / SCALAR TARGET')],
+        [node('gp','Fit a Gaussian-process surrogate','Parameters → measurement + uncertainty','LEARNED OBSERVABLE MAP')],
+        [node('acquire','Choose next development case','Reduce uncertainty near the question of interest','ACTIVE SELECTION'),node('test','Check independent held-out cases','Scalar error + uncertainty calibration','LOCKED TEST / NEVER USED TO SELECT','gate')],
+        [node('map','Validated behavior map','Resolved trends + uncertainty + unresolved regions','EVIDENCE')],
+        [node('paper','Possible wave or sampling contribution','Mechanism / regime map; or error vs simulation budget','PAPER / FULL FIELDS REMAIN NUMERICAL','paper')]
+      ],
+      edges: [['space','solve'],['solve','measure'],['measure','gp'],['gp','acquire'],['gp','test'],['test','map'],['map','paper'],['acquire','solve','feedback','sample']],
+      links: [['Gaussian-process sequential sampling','https://pmc.ncbi.nlm.nih.gov/articles/PMC6217378/']]
+    },
+    paper: {
+      title: 'Evidence becomes a focused manuscript',
+      caption: 'Conditional publication routes · journal fit depends on the demonstrated contribution',
+      description: 'Prior literature and a precise question define the introduction. The exact equation, validated reference data and chosen learning method define the methods section. Controlled comparisons produce results. Methods findings and wave findings lead to different central claims and journal scopes. Reproducibility, limitations and novelty are assessed before submission.',
+      rows: [
+        [node('intro','Question + closest prior work','What is missing, and what result would answer it?','INTRODUCTION / NOVELTY')],
+        [node('methods','Exact equation + reference + chosen ML','Input family, splits, architecture and training objective','METHODS / FIGURE 1: ARCHITECTURE')],
+        [node('reference','Reference reliability','Grid, step and domain sensitivity','RESULTS / FIGURE 2: CONVERGENCE','gate')],
+        [node('learning','Predictive performance','Phase, growth, rollout and equal-accuracy cost','RESULTS / FIGURES 3–4'),node('mechanism','Controlled explanation','Remove components or equation terms','RESULTS / FIGURE 5: ABLATIONS')],
+        [node('methodclaim','If the advance is computational','Hybrid / reduced / DeepONet / sampling efficiency','DISCUSSION / METHODS CLAIM','paper'),node('waveclaim','If the advance is wave dynamics','Growth mechanisms or resolved parameter dependence','DISCUSSION / PHYSICS CLAIM','paper')],
+        [node('methodjournal','Methods journal fit','MLST · Scientific Computing · Computational Physics','CONDITIONAL / SCOPE MATCH'),node('wavejournal','Wave journal fit','Wave Motion · Physica D','CONDITIONAL / SCOPE MATCH')],
+        [node('release','Reproducible evidence + limitations','Code, arrays, checkpoints, seeds, hardware and failure cases','DATA / CODE / SUPPLEMENT')],
+        [node('submit','Submission decision','Novel result + adequate evidence + expert review','GATE / ACCEPTANCE IS NOT GUARANTEED','gate')]
+      ],
+      edges: [['intro','methods'],['methods','reference'],['reference','learning'],['reference','mechanism'],['learning','methodclaim'],['mechanism','waveclaim'],['methodclaim','methodjournal'],['waveclaim','wavejournal'],['methodjournal','release'],['wavejournal','release'],['release','submit'],['submit','intro','feedback','revise']],
+      links: [['MLST','https://publishingsupport.iopscience.iop.org/journals/machine-learning-science-and-technology/about-machine-learning-science-technology/'],['Scientific Computing','https://link.springer.com/journal/10915/aims-and-scope'],['Computational Physics','https://shop.elsevier.com/journals/journal-of-computational-physics/0021-9991'],['Wave Motion','https://shop.elsevier.com/journals/wave-motion/0165-2125'],['Physica D','https://shop.elsevier.com/journals/physica-d-nonlinear-phenomena/0167-2789']]
+    }
+  };
+  let viewKey = 'overview';
+  let drawnWidth = 0;
+  function element(tag, attrs = {}, text = '') {
+    const el = document.createElementNS(NS, tag);
+    Object.entries(attrs).forEach(([k,v]) => el.setAttribute(k, String(v)));
+    if (text) el.textContent = text;
+    return el;
+  }
+  function draw() {
+    const view = views[viewKey];
+    const width = Math.max(260, Math.floor(canvas.getBoundingClientRect().width));
+    drawnWidth = width;
+    const narrow = width < 560;
+    const baseSize = parseFloat(getComputedStyle(root).fontSize) || 14;
+    const smallSize = parseFloat(getComputedStyle(caption).fontSize) || 12;
+    const textStep = baseSize * 1.42;
+    const smallStep = smallSize * 1.4;
+    const side = narrow ? 23 : 38;
+    const gap = narrow ? 16 : 22;
+    const inner = width - 2 * side;
+    const rows = narrow ? view.rows.flatMap(row => row.map(n => [n])) : view.rows;
+    const svg = element('svg', {class:'dw-diagram',role:'img','aria-labelledby':'dw-title dw-desc'});
+    svg.append(element('title',{id:'dw-title'},view.title));
+    svg.append(element('desc',{id:'dw-desc'},view.description));
+    const defs = element('defs');
+    const marker = element('marker',{id:'dw-arrow',viewBox:'0 0 8 8',refX:7,refY:4,markerWidth:6,markerHeight:6,orient:'auto-start-reverse'});
+    marker.append(element('path',{d:'M 1 1 L 7 4 L 1 7 Z',fill:'var(--muted-foreground)'}));
+    defs.append(marker); svg.append(defs);
+    const edgeLayer = element('g',{'aria-hidden':'true'});
+    const nodeLayer = element('g',{'aria-hidden':'true'});
+    svg.append(edgeLayer,nodeLayer); canvas.replaceChildren(svg);
+    const ruler = element('text',{class:'node-detail',visibility:'hidden'}); svg.append(ruler);
+    function wrap(text, available, small = false, strong = false) {
+      ruler.setAttribute('class', small ? 'node-tag text-small' : strong ? 'node-title' : 'node-detail');
+      const lines = []; let line = '';
+      text.split(' ').forEach(word => {
+        const candidate = line ? line+' '+word : word;
+        ruler.textContent = candidate;
+        if (ruler.getComputedTextLength() > available && line) { lines.push(line); line = word; }
+        else line = candidate;
+      });
+      if (line) lines.push(line);
+      return lines;
+    }
+    const positions = new Map();
+    let y = 8;
+    rows.forEach((row,ri) => {
+      const boxWidth = row.length === 1 ? Math.min(inner, 592) : (inner-gap)/2;
+      const rowWidth = boxWidth*row.length + gap*(row.length-1);
+      const left = (width-rowWidth)/2;
+      let rowHeight = 0;
+      row.forEach((n,index) => {
+        const available = boxWidth-28;
+        const tags = wrap(n.tag,available,true);
+        const titles = wrap(n.title,available,false,true);
+        const details = wrap(n.detail,available);
+        const height = 22 + tags.length*smallStep + 7 + titles.length*textStep + 5 + details.length*textStep;
+        rowHeight = Math.max(rowHeight,height);
+        positions.set(n.id,{...n,x:left+index*(boxWidth+gap),y,w:boxWidth,h:height,row:ri,tags,titles,details});
+      });
+      row.forEach(n => { positions.get(n.id).rowBottom = y + rowHeight; });
+      y += rowHeight + 32;
+    });
+    const totalHeight = y-24;
+    svg.setAttribute('viewBox',`0 0 ${width} ${totalHeight}`);
+    svg.setAttribute('height',totalHeight);
+    let sideCount = 0;
+    const drawnLabels = new Set();
+    view.edges.forEach(([from,to,type,label]) => {
+      const a = positions.get(from), b = positions.get(to);
+      if (!a || !b) return;
+      let path;
+      const isBack = type === 'feedback';
+      const skips = b.row > a.row+1;
+      if (isBack || type === 'side' || skips) {
+        const right = isBack || type === 'side';
+        const rail = right ? width-7-(sideCount%3)*5 : 7+(sideCount%3)*5;
+        sideCount++;
+        const x1=a.x+a.w/2, x2=b.x+b.w/2;
+        const y1=a.rowBottom+12, y2=b.y-12;
+        path=`M ${x1} ${a.y+a.h} V ${y1} H ${rail} V ${y2} H ${x2} V ${b.y}`;
+        if(label && !narrow && !drawnLabels.has(label)) {
+          drawnLabels.add(label);
+          const mid = Math.abs(y1-y2)>150 ? y1-36 : (y1+y2)/2;
+          edgeLayer.append(element('text',{class:'edge-label text-small',transform:`translate(${rail-4},${mid}) rotate(-90)`,'text-anchor':'middle'},label));
+        }
+      } else {
+        const x1=a.x+a.w/2, x2=b.x+b.w/2, y1=a.y+a.h, y2=b.y;
+        const mid=(y1+y2)/2;
+        path=`M ${x1} ${y1} V ${mid} H ${x2} V ${y2}`;
+      }
+      edgeLayer.append(element('path',{class:'edge'+(isBack?' feedback':''),d:path,'marker-end':'url(#dw-arrow)'}));
+    });
+    positions.forEach(n => {
+      const group=element('g',{'data-node':n.id});
+      group.append(element('rect',{class:'node-box '+n.kind,x:n.x,y:n.y,width:n.w,height:n.h,rx:1}));
+      let ty=n.y+14+smallSize;
+      const lines=(array,cls,step) => array.forEach(line=>{
+        group.append(element('text',{x:n.x+14,y:ty,class:cls},line)); ty+=step;
+      });
+      lines(n.tags,'node-tag text-small',smallStep); ty+=7;
+      lines(n.titles,'node-title',textStep); ty+=5;
+      lines(n.details,'node-detail',textStep);
+      nodeLayer.append(group);
+    });
+    ruler.remove();
+  }
+  function save() {
+    if (window.openai && typeof window.openai.setWidgetState === 'function') {
+      Promise.resolve(window.openai.setWidgetState({modelContent:{diagram:viewKey,scope:'Proposed optical Dysthe research and publication structure'},privateContent:{view:viewKey}})).catch(()=>{});
+    }
+  }
+  function show(key, persist = false) {
+    if (!Object.prototype.hasOwnProperty.call(views,key)) return;
+    viewKey=key;
+    buttons.forEach(button=>{
+      const selected=button.dataset.view===key;
+      button.classList.toggle('btn-primary',selected);
+      button.setAttribute('aria-pressed',String(selected));
+    });
+    caption.textContent=views[key].caption;
+    sources.replaceChildren();
+    views[key].links.forEach(([label,url])=>{
+      const a=document.createElement('a'); a.textContent=label; a.href=url; a.target='_blank'; a.rel='noopener noreferrer'; sources.append(a);
+    });
+    draw(); if(persist) save();
+  }
+  buttons.forEach(button=>button.addEventListener('click',()=>show(button.dataset.view,true)));
+  function restore(state) {
+    const key=state?.privateContent?.view || state?.modelContent?.diagram;
+    if (key && Object.prototype.hasOwnProperty.call(views,key)) show(key);
+  }
+  window.addEventListener('openai:set_globals',event=>{
+    if(event.detail?.globals?.widgetState) restore(event.detail.globals.widgetState);
+  });
+  show('overview'); restore(window.openai?.widgetState);
+  new ResizeObserver(()=>{
+    if(Math.abs(canvas.getBoundingClientRect().width-drawnWidth)>1) draw();
+  }).observe(canvas);
+})();
+</script>
