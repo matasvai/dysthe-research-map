@@ -1,8 +1,9 @@
 <div id="dysthe-research-wireframe">
   <div class="dw-heading">
-    <h2>Dysthe: from model to paper</h2>
-    <span class="text-small dw-meta">PROPOSED RESEARCH STRUCTURE</span>
+    <h2>Water-wave Dysthe: from model to paper</h2>
+    <span class="text-small dw-meta">WATER WAVES / RESEARCH PLAN</span>
   </div>
+  <p class="text-small">Learning how new water-wave packets change as they travel. Scope: deep-water gravity waves, one envelope profile, propagation distance ξ and retarded time τ. The methods below are proposed; their performance remains to be tested.</p>
   <div class="viz-controls" role="group" aria-label="Choose a diagram">
     <button type="button" class="btn btn-primary" data-view="overview" aria-pressed="true">Research map</button>
     <button type="button" class="btn" data-view="hybrid" aria-pressed="false">Hybrid solver</button>
@@ -56,11 +57,11 @@
     overview: {
       title: 'Shared foundation, alternative models, common evidence',
       caption: 'Alternative predictors · shared references and tests · active sampling feeds development',
-      description: 'The optical Dysthe specification feeds a reference solver. Refinement must pass before training and validation trajectories are separated from a locked test set. Three full-field approaches and one observable surrogate share the foundation. Their appropriate tests support either a computational or wave-dynamics paper. Failed reference checks return to the solver.',
+      description: 'The spatial water-wave Dysthe free-surface-envelope specification feeds a reference solver. Refinement must pass before training and validation trajectories are separated from a locked test set. Three full-field approaches and one observable surrogate share the foundation. Their appropriate tests support either a computational or wave-dynamics paper. Failed reference checks return to the solver.',
       rows: [
-        [node('question','Specify the scientific question','Optical Dysthe · input family · domain · valid regime','01 / SCOPE')],
-        [node('reference','Generate numerical references','Initial fields → complex trajectories + diagnostics','02 / EXISTING SOLVER, NEW CAMPAIGN')],
-        [node('certify','Accept only resolved trajectories','Grid, time-step and domain checks for each regime','03 / REFERENCE GATE','gate')],
+        [node('question','Specify the scientific question','Water-wave Dysthe · packets · steepness · valid regime','01 / SCOPE')],
+        [node('reference','Generate numerical references','Initial fields → complex trajectories + diagnostics','02 / WATER-WAVE REFERENCE TO PORT')],
+        [node('certify','Accept only resolved trajectories','Profile grid, propagation step and domain checks','03 / REFERENCE GATE','gate')],
         [node('development','Training + validation','Fit weights, bases and hyperparameters','04 / DEVELOPMENT'), node('test','Lock complete test trajectories','Unseen fields, regimes and longer horizons','04 / FINAL ASSESSMENT')],
         [node('field','Predict the whole field','Hybrid solver · reduced model · DeepONet','05 / THREE ALTERNATIVES'),node('observable','Predict chosen measurements','Gaussian process + active sampling','05 / OBSERVABLE ALTERNATIVE')],
         [node('evaluation','Compare against relevant baselines','Field models: solver + FNO; GP: scalar error + calibration','06 / FROZEN MODELS + LOCKED TESTS','gate')],
@@ -68,48 +69,48 @@
         [node('publication','Build one focused paper','Claim → supporting figures → limitations → reproducible release','08 / NOVELTY CHECK + PEER REVIEW','paper')]
       ],
       edges: [['question','reference'],['reference','certify'],['certify','development'],['certify','test'],['development','field'],['development','observable'],['test','evaluation','side'],['field','evaluation'],['observable','evaluation'],['evaluation','method'],['evaluation','physics'],['method','publication'],['physics','publication'],['certify','reference','feedback','refine'],['observable','reference','feedback','sample']],
-      links: [['PINO / comparison baseline','https://arxiv.org/abs/2111.03794'],['DeepONet','https://arxiv.org/abs/2103.10974']]
+      links: [['Water-wave equation / Fedele–Dutykh','https://arxiv.org/abs/1110.3605'],['PINO / general ML method','https://arxiv.org/abs/2111.03794'],['DeepONet','https://arxiv.org/abs/2103.10974']]
     },
     hybrid: {
       title: 'Hybrid solver: retain physics, learn the correction',
       caption: 'Full-field prediction · candidate to test first · performance unestablished',
-      description: 'An input field enters a cheap numerical step with known linear dispersion and an approximate nonlinear update. A neural correction produces the next field. During training, refined targets define a multi-step objective that updates correction weights. In prediction, the corrected field feeds the next step. Held-out tests determine whether the method improves accuracy at equal computational cost.',
+      description: 'An input field enters a cheap numerical step with water-wave linear dispersion and an approximate nonlinear update including induced mean flow. A neural correction produces the next field. During training, refined targets define a multi-step objective that updates correction weights. In prediction, the corrected field feeds the next step. Held-out tests determine whether the method improves accuracy at equal computational cost.',
       rows: [
-        [node('input','Current complex field','Real + imaginary parts · coefficients · step size','INPUT / NEW INITIAL FIELDS')],
-        [node('cheap','Known numerical step','Exact linear modes; nonlinear derivative approximated','FIXED PHYSICS')],
+        [node('input','Current complex field','Complex envelope · steepness · propagation step','INPUT / NEW INITIAL FIELDS')],
+        [node('cheap','Known numerical step','Exact linear modes; nonlinear and mean-flow update','FIXED PHYSICS')],
         [node('network','Small correction network','State + coarse prediction → nonlinear step correction','LEARNED COMPONENT')],
-        [node('prediction','Corrected next field','Advance repeatedly with frozen weights','PREDICT / ROLLOUT'),node('targets','Refined training trajectories','Same inputs and observation times','TRAIN ONLY / TARGETS')],
+        [node('prediction','Corrected next field','Advance repeatedly with frozen weights','PREDICT / ROLLOUT'),node('targets','Refined training trajectories','Same packets and propagation positions','TRAIN ONLY / TARGETS')],
         [node('loss','Fit over several steps','Complex-field loss + verified physical constraints','TRAIN ONLY / UPDATE WEIGHTS')],
         [node('test','Test phase, growth and cost','Compare against coarse solver, tuned solver and FNO','EVIDENCE / LOCKED TRAJECTORIES','gate')],
         [node('paper','Possible methods contribution','Cost–accuracy curves + rollout errors + correction ablations','PAPER / BENEFIT MUST BE DEMONSTRATED','paper')]
       ],
       edges: [['input','cheap'],['cheap','network'],['network','prediction'],['prediction','loss'],['targets','loss'],['loss','test'],['test','paper'],['loss','network','feedback','fit'],['prediction','input','feedback','roll out']],
-      links: [['Learned split-step precedent','https://arxiv.org/abs/2010.14258'],['Learning inside numerical solvers','https://pmc.ncbi.nlm.nih.gov/articles/PMC8166023/']]
+      links: [['Water-wave Dysthe structure','https://arxiv.org/abs/1110.3605'],['Learning inside numerical solvers','https://pmc.ncbi.nlm.nih.gov/articles/PMC8166023/']]
     },
     reduced: {
       title: 'Reduced model: learn interactions among a few modes',
       caption: 'Full-field approximation · proceed only if unseen disturbances survive compression',
-      description: 'Training fields define a spatial basis. A held-out compression test decides whether reduction is appropriate. Projected training trajectories are used to fit a constrained reduced dynamical system. At prediction time a new initial field is projected, its coefficients are evolved with the frozen reduced model and the field is reconstructed. Compression and evolution errors are assessed separately.',
+      description: 'Training envelopes define a basis over the retarded-time profile. A held-out compression test decides whether reduction is appropriate. Projected training trajectories are used to fit a constrained reduced dynamical system. At prediction time a new initial field is projected, its coefficients are evolved with the frozen reduced model and the field is reconstructed. Compression and evolution errors are assessed separately.',
       rows: [
         [node('data','Resolved training fields','Keep complex phase and small disturbances','TRAIN / INPUT SNAPSHOTS')],
-        [node('basis','Construct a compact basis','POD / SVD: dominant spatial patterns','TRAIN / FIT BASIS')],
+        [node('basis','Construct a compact basis','POD / SVD: dominant envelope patterns','TRAIN / FIT BASIS')],
         [node('compress','Check validation-field compression','Measure disturbance and field reconstruction errors','GATE / KEEP MORE MODES IF NEEDED','gate')],
         [node('fit','Infer reduced dynamics','Projected trajectories → constrained coefficient evolution','TRAIN / LEARN INTERACTIONS'),node('initial','Project a new initial field','Initial field → reduced coefficients','PREDICT / FROZEN BASIS')],
         [node('evolve','Evolve reduced coefficients','Known linear structure + learned nonlinear interactions','PREDICT / FROZEN MODEL')],
-        [node('reconstruct','Reconstruct the complex field','Spatial basis + evolved coefficients','OUTPUT')],
+        [node('reconstruct','Reconstruct the complex field','Envelope basis + evolved coefficients','OUTPUT')],
         [node('test','Separate compression from dynamics','Growth, phase, mode transfer and cost vs full solver','EVIDENCE / UNSEEN TRAJECTORIES','gate')],
         [node('paper','Possible reduced-model contribution','Accuracy vs retained modes + interpretable interactions','PAPER / STRUCTURE MUST MATCH DYSTHE','paper')]
       ],
       edges: [['data','basis'],['basis','compress'],['compress','fit'],['compress','initial'],['fit','evolve'],['initial','evolve'],['evolve','reconstruct'],['reconstruct','test'],['test','paper'],['compress','basis','feedback','refine']],
-      links: [['Hamiltonian operator inference / NLS precedent','https://arxiv.org/abs/2107.12996']]
+      links: [['Water-wave variables and invariants','https://arxiv.org/abs/1110.3605']]
     },
     deep: {
       title: 'DeepONet: condition directly on the initial field',
       caption: 'Full-field prediction at requested coordinates · two encoders, one learned solution map',
-      description: 'The branch network reads samples of the complex initial field and equation parameters. The trunk network reads position and time. Their features combine into a complex solution prediction. Training uses trajectory data and optional equation residuals and verified invariants. Entire initial-condition trajectories are held out to test generalization.',
+      description: 'The branch network reads samples of the complex initial field and equation parameters. The trunk network reads propagation distance xi and retarded time tau. Their features combine into a complex solution prediction. Training uses trajectory data and optional equation residuals and verified invariants. Entire initial-condition trajectories are held out to test generalization.',
       rows: [
-        [node('field','Initial-field samples','Real + imaginary parts · equation parameters','INPUT / FUNCTION'),node('query','Requested location and time','Spatial coordinates + propagation time','INPUT / QUERY')],
-        [node('branch','Branch network','Encode the starting field','LEARNED FEATURES'),node('trunk','Trunk network','Encode position and time','LEARNED FEATURES')],
+        [node('field','Initial-field samples','Complex initial packet · wave steepness','INPUT / FUNCTION'),node('query','Requested propagation and profile point','Propagation distance ξ + retarded time τ','INPUT / QUERY')],
+        [node('branch','Branch network','Encode the starting field','LEARNED FEATURES'),node('trunk','Trunk network','Encode ξ and τ','LEARNED FEATURES')],
         [node('combine','Combine the two feature sets','Initial-field features × query features','LEARNED SOLUTION REPRESENTATION')],
         [node('prediction','Predicted complex field','Initial-condition enforcement where appropriate','OUTPUT')],
         [node('loss','Train on complete trajectories','Data + equation residual + verified invariant penalties','TRAIN / FIT BOTH NETWORKS')],
@@ -124,9 +125,9 @@
       caption: 'Predicts selected measurements · can supply new training cases to the other methods',
       description: 'A bounded family of input parameters is sampled by a resolved numerical solver. Scalar measurements train a Gaussian process. Its uncertainty guides the next development sample, which is simulated and added to the training pool. A separate locked test set checks scalar accuracy and uncertainty calibration. The final model can support a wave-behavior map or an efficiency study.',
       rows: [
-        [node('space','Define the input-parameter family','Amplitude · width · disturbance wavelength · phase','INPUT / BOUNDED PARAMETER SPACE')],
+        [node('space','Define the input-parameter family','Packet amplitude · width · modulation · phase','INPUT / BOUNDED PARAMETER SPACE')],
         [node('solve','Run selected reference simulations','Refinement gate on every accepted case','SHARED SOLVER')],
-        [node('measure','Extract a physical measurement','Growth rate, peak amplification or event time','DATA / SCALAR TARGET')],
+        [node('measure','Extract a physical measurement','Modulation growth, peak amplification or focusing distance','DATA / SCALAR TARGET')],
         [node('gp','Fit a Gaussian-process surrogate','Parameters → measurement + uncertainty','LEARNED OBSERVABLE MAP')],
         [node('acquire','Choose next development case','Reduce uncertainty near the question of interest','ACTIVE SELECTION'),node('test','Check independent held-out cases','Scalar error + uncertainty calibration','LOCKED TEST / NEVER USED TO SELECT','gate')],
         [node('map','Validated behavior map','Resolved trends + uncertainty + unresolved regions','EVIDENCE')],
@@ -144,7 +145,7 @@
         [node('methods','Exact equation + reference + chosen ML','Input family, splits, architecture and training objective','METHODS / FIGURE 1: ARCHITECTURE')],
         [node('reference','Reference reliability','Grid, step and domain sensitivity','RESULTS / FIGURE 2: CONVERGENCE','gate')],
         [node('learning','Predictive performance','Phase, growth, rollout and equal-accuracy cost','RESULTS / FIGURES 3–4'),node('mechanism','Controlled explanation','Remove components or equation terms','RESULTS / FIGURE 5: ABLATIONS')],
-        [node('methodclaim','If the advance is computational','Hybrid / reduced / DeepONet / sampling efficiency','DISCUSSION / METHODS CLAIM','paper'),node('waveclaim','If the advance is wave dynamics','Growth mechanisms or resolved parameter dependence','DISCUSSION / PHYSICS CLAIM','paper')],
+        [node('methodclaim','If the advance is computational','Hybrid / reduced / DeepONet / sampling efficiency','DISCUSSION / METHODS CLAIM','paper'),node('waveclaim','If the advance is wave dynamics','Water-wave modulation or resolved parameter effects','DISCUSSION / PHYSICS CLAIM','paper')],
         [node('methodjournal','Methods journal fit','MLST · Scientific Computing · Computational Physics','CONDITIONAL / SCOPE MATCH'),node('wavejournal','Wave journal fit','Wave Motion · Physica D','CONDITIONAL / SCOPE MATCH')],
         [node('release','Reproducible evidence + limitations','Code, arrays, checkpoints, seeds, hardware and failure cases','DATA / CODE / SUPPLEMENT')],
         [node('submit','Submission decision','Novel result + adequate evidence + expert review','GATE / ACCEPTANCE IS NOT GUARANTEED','gate')]
@@ -262,7 +263,7 @@
   }
   function save() {
     if (window.openai && typeof window.openai.setWidgetState === 'function') {
-      Promise.resolve(window.openai.setWidgetState({modelContent:{diagram:viewKey,scope:'Proposed optical Dysthe research and publication structure'},privateContent:{view:viewKey}})).catch(()=>{});
+      Promise.resolve(window.openai.setWidgetState({modelContent:{diagram:viewKey,scope:'Water-wave Dysthe only: spatial free-surface envelope and publication plan'},privateContent:{view:viewKey}})).catch(()=>{});
     }
   }
   function show(key, persist = false) {

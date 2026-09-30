@@ -67,7 +67,7 @@ eventually hold the integrated methods.
 
 ## Move over in this order
 
-1. **Core reference:** port the selected optical equation and solver from the
+1. **Core reference:** port the selected water-wave equation and solver from the
    existing work, record upstream revisions/hashes, and compare identical inputs
    before changing numerics. Recheck signs, nonlinear terms and normalization.
 2. **Initial-condition family:** establish stable physical group IDs and verify
@@ -84,11 +84,18 @@ eventually hold the integrated methods.
 
 ## Scope and existing work
 
-This public family targets optical Dysthe. Plasma and water-wave work remain
-separate model branches in the scientific sense; they are not interchangeable
-reference datasets. The existing `dysthe-pinn` repository remains the migration
-source with its current access settings and history. Existing cluster commands
-continue to refer to that code until replacement commands are tested.
+This family is **water-wave Dysthe only**, governed by [SCOPE.md](SCOPE.md).
+The approved baseline is the one-coordinate spatial free-surface-envelope model
+of Fedele–Dutykh, with propagation distance xi and retarded time tau. The existing
+project's `nonlinear/solver.py`, `kind='dysthe'`, is the reference migration
+source. Its files and hashes must be recorded when ported; they have not yet
+been copied into this public scaffold. The prior optical PINN is not this solver.
+
+Other physical settings are excluded from active work and publication evidence.
+Historical artifacts remain intact with their original identities. No old
+cluster job becomes a water-wave job through renaming. New short submission
+commands will be provided after water-wave execution and refinement checks pass.
+Only the human project owner may directly authorize a future scope change.
 
 Large field arrays and checkpoints stay in durable research storage. Commit
 compact manifests, metrics, configuration files and vector figures. A passed

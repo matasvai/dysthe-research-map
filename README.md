@@ -1,6 +1,9 @@
 # Dysthe research map
 
-An interactive guide to a proposed optical Dysthe research programme and how its
+**Scope: water-wave Dysthe only.** See [SCOPE.md](SCOPE.md) for the fixed
+physical model, exclusions and enforced boundaries.
+
+An interactive guide to a proposed water-wave Dysthe research programme and how its
 parts could support a scientific paper.
 
 **Website:** https://matasvai.github.io/dysthe-research-map/

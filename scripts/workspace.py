@@ -16,6 +16,8 @@ def git(folder, *args):
 
 def load_family(path):
     family = json.loads(path.read_text())
+    if family.get('schema_version') != 2 or family.get('scope') != 'water-wave-dysthe-spatial-v1' or family.get('physical_system') != 'deep-water-gravity-waves':
+        raise ValueError('Scope violation: workspace must target the approved water-wave model')
     names = set()
     for repo in family['repositories']:
         name = repo['name']

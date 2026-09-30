@@ -2,14 +2,16 @@
 
 from pathlib import Path
 from html import escape
-import json
+from workspace import load_family
+from check_scope import check
 
 from render import render
 
 
 ROOT = Path(__file__).resolve().parents[1]
-TITLE = "Dysthe — Interactive Research Map"
-family = json.loads((ROOT / "family.json").read_text())
+TITLE = "Water-wave Dysthe — Interactive Research Map"
+check(ROOT)
+family = load_family(ROOT / "family.json")
 repository_links = ' · '.join(
     f'<a href="https://github.com/matasvai/{escape(repo["name"])}">'
     f'{escape(repo["name"])}</a>' for repo in family['repositories']
@@ -18,7 +20,7 @@ document = render(ROOT / "source/research-map.html", title=TITLE)
 document = document.replace(
     "<title>" + TITLE + "</title>",
     "<title>" + TITLE + "</title>\n"
-    '<meta name="description" content="Explore the proposed optical Dysthe '
+    '<meta name="description" content="Explore the proposed water-wave Dysthe '
     'research programme: hybrid solvers, reduced models, DeepONet, active '
     'learning, validation, and routes to a scientific paper.">',
     1,
@@ -37,7 +39,7 @@ document = document.replace(
 )
 document = document.replace(
     "</iframe>\n<script>",
-    '</iframe>\n</main>\n<footer>Optical Dysthe research · Proposed methods '
+    '</iframe>\n</main>\n<footer>Water-wave Dysthe research · Proposed methods '
     'and evidence requirements. '
     '<a href="https://github.com/matasvai/dysthe-research-map">'
     'View the website source on GitHub</a>'

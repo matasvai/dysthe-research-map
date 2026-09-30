@@ -1,12 +1,12 @@
 {
-  "schema_version": 1,
-  "scope": "optical-dysthe-127-v1",
+  "schema_version": 2,
+  "scope": "water-wave-dysthe-spatial-v1",
   "repositories": [
     {
       "name": "dysthe-core",
       "url": "https://github.com/matasvai/dysthe-core.git",
       "role": "Shared equation, reference, initial fields and diagnostics",
-      "revision": "45b2898231aa29e084a6b175d341807be52bd9a0",
+      "revision": "10889fed1d20f02f8318d281322585284711eadd",
       "default_branch": "main",
       "workstreams": [
         "codex/reference-migration",
@@ -18,7 +18,7 @@
       "name": "dysthe-learning",
       "url": "https://github.com/matasvai/dysthe-learning.git",
       "role": "Learning-method workstreams and shared interfaces",
-      "revision": "975bdb9c561883f6ffb9bbf82d4ce5d47acedeba",
+      "revision": "27f94b0ebd7c42de3401c7430a380a2378b233b2",
       "default_branch": "main",
       "workstreams": [
         "codex/hybrid-solver",
@@ -33,7 +33,7 @@
       "name": "dysthe-experiments",
       "url": "https://github.com/matasvai/dysthe-experiments.git",
       "role": "Campaigns, benchmarks, run manifests and cluster migration",
-      "revision": "21c7e4d44f8348c3e6237ca4d2b1c06e0bc36a1b",
+      "revision": "87b534fba38a87d5146953765059998f3d43ecb7",
       "default_branch": "main",
       "workstreams": [
         "codex/reference-campaign",
@@ -45,12 +45,13 @@
       "name": "dysthe-paper",
       "url": "https://github.com/matasvai/dysthe-paper.git",
       "role": "LaTeX manuscript, PDF figures and evidence ledger",
-      "revision": "ed035438fedb9a90ba27b7fa4804d81801513a01",
+      "revision": "893c1cf4653ff8e19c339df9f9102f6e51099549",
       "default_branch": "main",
       "workstreams": [
         "codex/manuscript-outline"
       ],
       "status": "scaffold"
     }
-  ]
+  ],
+  "physical_system": "deep-water-gravity-waves"
 }

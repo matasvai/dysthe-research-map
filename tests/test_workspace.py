@@ -28,9 +28,18 @@ class Workspace(unittest.TestCase):
                          ('dysthe-core','https://example.com/other.git')]:
             with tempfile.TemporaryDirectory() as tmp:
                 path=Path(tmp)/'manifest.json'
-                path.write_text(json.dumps({'repositories':[{'name':name,'url':url,'revision':'a'*40}]}))
+                path.write_text(json.dumps({'schema_version':2,'scope':'water-wave-dysthe-spatial-v1','physical_system':'deep-water-gravity-waves','repositories':[{'name':name,'url':url,'revision':'a'*40}]}))
                 with self.assertRaises(ValueError):
                     workspace.load_family(path)
 
     def test_real_manifest_has_four_repositories(self):
         self.assertEqual(len(workspace.load_family(ROOT/'family.json')['repositories']),4)
+
+    def test_rejects_out_of_scope_family(self):
+        family=json.loads((ROOT/'family.json').read_text())
+        family['scope']='optical-dysthe-127-v1'
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'family.json'
+            path.write_text(json.dumps(family))
+            with self.assertRaisesRegex(ValueError, 'Scope violation'):
+                workspace.load_family(path)
