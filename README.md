@@ -1,5 +1,11 @@
 # Dysthe research map
 
+## Research record — 5 November 2026
+
+[Start with the dated research catalogue](research-record/2026-11-05/README.md). It connects experiment names, dates, results, failures, source code, reports and outstanding tests across the repository family. [All 12 project chats](research-record/2026-11-05/CHATS.md), including unrelated discussions, were reviewed for scope.
+
+The original interactive website remains a proposed research map. The new catalogue records what was actually completed and links the preserved evidence.
+
 **Scope: water-wave Dysthe only.** See [SCOPE.md](SCOPE.md) for the fixed
 physical model, exclusions and enforced boundaries.
 

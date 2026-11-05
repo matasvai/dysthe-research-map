@@ -1,5 +1,7 @@
 # The Dysthe research family
 
+The [5 November 2026 research record](research-record/2026-11-05/README.md) indexes completed work, the original source revisions and all project chats. The pinned bootstrap manifest and migration narrative below are retained as historical setup instructions.
+
 The public family separates reusable physics, candidate learning methods,
 controlled experiments, and the paper. The current repositories are migration
 scaffolds; creating branches does not mean their methods are implemented.
